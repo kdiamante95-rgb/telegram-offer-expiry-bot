@@ -1,0 +1,16 @@
+[Unit]
+Description=Telegram Offers Bot - worker
+After=network.target
+
+[Service]
+Type=simple
+User=telegrambot
+Group=telegrambot
+WorkingDirectory=/opt/bot_telegram
+ExecStart=/opt/bot_telegram/venv/bin/python /opt/bot_telegram/bot.py bot
+Restart=always
+RestartSec=5
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target

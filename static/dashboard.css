@@ -1,0 +1,365 @@
+:root {
+  --bg: #f4efe6;
+  --bg-accent: radial-gradient(circle at top left, rgba(214, 124, 76, 0.32), transparent 32%), radial-gradient(circle at 80% 20%, rgba(34, 85, 96, 0.18), transparent 28%), linear-gradient(180deg, #f7f1e8 0%, #efe4d7 100%);
+  --panel: rgba(255, 249, 242, 0.84);
+  --border: rgba(78, 52, 32, 0.15);
+  --text: #2d241d;
+  --muted: #6f6054;
+  --accent: #c65b2e;
+  --accent-dark: #934020;
+  --teal: #204c55;
+  --success: #e3f3df;
+  --success-border: #90b482;
+  --error: #f9e2df;
+  --error-border: #ce7a72;
+  --shadow: 0 24px 70px rgba(93, 63, 42, 0.12);
+  --radius-lg: 28px;
+  --radius-md: 18px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Aptos, "Trebuchet MS", "Segoe UI", sans-serif;
+  color: var(--text);
+  background: var(--bg-accent);
+}
+
+.page-shell {
+  width: min(1200px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 32px 0 56px;
+}
+
+.login-shell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.5fr 0.9fr;
+  gap: 24px;
+  align-items: stretch;
+  margin-bottom: 24px;
+}
+
+.hero h1,
+.panel-heading h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  letter-spacing: -0.03em;
+}
+
+.hero h1 {
+  font-size: clamp(2.2rem, 5vw, 4.4rem);
+  line-height: 0.95;
+  max-width: 12ch;
+}
+
+.hero-copy {
+  max-width: 64ch;
+  color: var(--muted);
+  font-size: 1.02rem;
+  line-height: 1.6;
+}
+
+.hero-card,
+.panel,
+.flash {
+  backdrop-filter: blur(14px);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.hero-card,
+.panel {
+  border-radius: var(--radius-lg);
+}
+
+.hero-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-card-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.hero-card::after {
+  content: "";
+  position: absolute;
+  inset: auto -30px -40px auto;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(198, 91, 46, 0.34), rgba(32, 76, 85, 0.16));
+}
+
+.meta-label,
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.76rem;
+  color: var(--accent-dark);
+  font-weight: 700;
+}
+
+.meta-hint {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.flash-stack {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.compact-flash-stack {
+  margin-bottom: 18px;
+}
+
+.flash {
+  border-radius: 16px;
+  padding: 14px 18px;
+}
+
+.flash-success {
+  background: var(--success);
+  border-color: var(--success-border);
+}
+
+.flash-error {
+  background: var(--error);
+  border-color: var(--error-border);
+}
+
+.layout-grid {
+  display: grid;
+  grid-template-columns: minmax(320px, 420px) minmax(0, 1fr);
+  gap: 24px;
+}
+
+.panel {
+  padding: 24px;
+}
+
+.login-panel {
+  width: min(100%, 460px);
+}
+
+.panel-heading {
+  margin-bottom: 22px;
+}
+
+.panel-heading h2 {
+  font-size: 2rem;
+}
+
+.offer-form,
+.offer-list {
+  display: grid;
+  gap: 16px;
+}
+
+label,
+.upload-field {
+  display: grid;
+  gap: 8px;
+  font-weight: 700;
+}
+
+label span,
+.upload-field span {
+  font-size: 0.92rem;
+}
+
+input,
+textarea,
+button {
+  font: inherit;
+}
+
+input,
+textarea {
+  width: 100%;
+  border: 1px solid rgba(78, 52, 32, 0.18);
+  border-radius: 14px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--text);
+  transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: rgba(198, 91, 46, 0.75);
+  box-shadow: 0 0 0 4px rgba(198, 91, 46, 0.12);
+  transform: translateY(-1px);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 150px;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.upload-field small {
+  color: var(--muted);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.primary-button,
+.secondary-button,
+.ghost-button {
+  border: 0;
+  border-radius: 999px;
+  padding: 14px 18px;
+  cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+.primary-button {
+  background: linear-gradient(135deg, var(--accent), #e7884d);
+  color: #fffaf4;
+  font-weight: 700;
+  box-shadow: 0 14px 28px rgba(198, 91, 46, 0.24);
+}
+
+.secondary-button {
+  background: rgba(32, 76, 85, 0.1);
+  color: var(--teal);
+  font-weight: 700;
+}
+
+.ghost-button {
+  background: rgba(255, 255, 255, 0.46);
+  color: var(--text);
+  border: 1px solid rgba(78, 52, 32, 0.14);
+  font-weight: 700;
+}
+
+.primary-button:hover,
+.secondary-button:hover,
+.ghost-button:hover {
+  transform: translateY(-1px);
+}
+
+.offer-card {
+  border: 1px solid rgba(78, 52, 32, 0.1);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.68);
+  display: grid;
+  gap: 14px;
+}
+
+.offer-card-top,
+.offer-meta-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.offer-title {
+  margin: 0 0 6px;
+  font-size: 1.08rem;
+  font-weight: 700;
+}
+
+.offer-expiry,
+.offer-meta-row,
+.offer-body {
+  margin: 0;
+  color: var(--muted);
+}
+
+.offer-body {
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.offer-meta-row {
+  font-size: 0.88rem;
+}
+
+.offer-badge {
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.with-photo {
+  background: rgba(198, 91, 46, 0.12);
+  color: var(--accent-dark);
+}
+
+.text-only {
+  background: rgba(32, 76, 85, 0.12);
+  color: var(--teal);
+}
+
+.empty-state {
+  border: 1px dashed rgba(78, 52, 32, 0.2);
+  border-radius: var(--radius-md);
+  padding: 28px;
+  text-align: center;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 980px) {
+  .hero,
+  .layout-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero h1 {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .page-shell {
+    width: min(100% - 20px, 1200px);
+    padding-top: 20px;
+  }
+
+  .panel,
+  .hero-card {
+    padding: 20px;
+  }
+
+  .field-row,
+  .hero-card-top,
+  .offer-card-top,
+  .offer-meta-row {
+    flex-direction: column;
+  }
+}

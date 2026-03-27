@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Offers Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Telegram Offer Desk</p>
+        <h1>Publish offers from a dashboard, not from the app.</h1>
+        <p class="hero-copy">The dashboard keeps each image on disk only while the offer is active. When the offer expires, the bot republishes it with an expired overlay and then removes the local file.</p>
+      </div>
+      <div class="hero-card">
+        <div class="hero-card-top">
+          <div>
+            <span class="meta-label">Target Channel</span>
+            <strong>{{ target_chat_id or 'Not configured' }}</strong>
+          </div>
+          <form action="{{ url_for('logout') }}" method="post">
+            <button class="ghost-button" type="submit">Sign Out</button>
+          </form>
+        </div>
+        <span class="meta-hint">Set TELEGRAM_TARGET_CHAT_ID in token.env to publish directly from the dashboard.</span>
+      </div>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <section class="flash-stack">
+          {% for category, message in messages %}
+            <article class="flash flash-{{ category }}">{{ message }}</article>
+          {% endfor %}
+        </section>
+      {% endif %}
+    {% endwith %}
+
+    <main class="layout-grid">
+      <section class="panel form-panel">
+        <div class="panel-heading">
+          <p class="eyebrow">New Offer</p>
+          <h2>Create a complete post</h2>
+        </div>
+        <form class="offer-form" action="{{ url_for('publish_offer') }}" method="post" enctype="multipart/form-data">
+          <label>
+            <span>Title</span>
+            <input type="text" name="title" maxlength="120" placeholder="Example: Weekend smartphone deal">
+          </label>
+
+          <label>
+            <span>Description</span>
+            <textarea name="description" rows="6" maxlength="850" placeholder="Free-form post content. The Expires line is generated automatically."></textarea>
+          </label>
+
+          <div class="field-row">
+            <label>
+              <span>Expiry Date</span>
+              <input type="date" name="expiry_date" required>
+            </label>
+            <label>
+              <span>Expiry Time</span>
+              <input type="time" name="expiry_time" required>
+            </label>
+          </div>
+
+          <label class="upload-field">
+            <span>Offer Image</span>
+            <input type="file" name="image" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp">
+            <small>Supported formats: JPG, PNG, and WEBP. The file stays on the server only while the offer is active.</small>
+          </label>
+
+          <button class="primary-button" type="submit">Publish to Telegram</button>
+        </form>
+      </section>
+
+      <section class="panel list-panel">
+        <div class="panel-heading">
+          <p class="eyebrow">Active Offers</p>
+          <h2>{{ offers|length }} queued</h2>
+        </div>
+
+        {% if offers %}
+          <div class="offer-list">
+            {% for offer in offers %}
+              <article class="offer-card">
+                <div class="offer-card-top">
+                  <div>
+                    <p class="offer-title">{{ offer.title or 'Telegram Post' }}</p>
+                    <p class="offer-expiry">Expires on {{ offer.scadenza }}</p>
+                  </div>
+                  <span class="offer-badge {{ 'with-photo' if offer.has_photo else 'text-only' }}">
+                    {{ 'With image' if offer.has_photo else 'Text only' }}
+                  </span>
+                </div>
+
+                <p class="offer-body">{{ offer.description or offer.testo }}</p>
+
+                <div class="offer-meta-row">
+                  <span>Message ID {{ offer.message_id }}</span>
+                  <span>{{ 'Created from dashboard' if offer.created_from_ui else 'Detected from Telegram' }}</span>
+                </div>
+
+                <form action="{{ url_for('expire_offer_now', offer_id=offer.offer_id) }}" method="post">
+                  <button class="secondary-button" type="submit">Force Expiry Now</button>
+                </form>
+              </article>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="empty-state">
+            <p>No active offers. Use the form to publish a new one.</p>
+          </div>
+        {% endif %}
+      </section>
+    </main>
+  </div>
+</body>
+</html>

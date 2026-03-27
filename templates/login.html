@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard Login</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+</head>
+<body>
+  <div class="page-shell login-shell">
+    <section class="panel login-panel">
+      <div class="panel-heading">
+        <p class="eyebrow">Restricted Area</p>
+        <h2>Sign in to the offers dashboard</h2>
+      </div>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <section class="flash-stack compact-flash-stack">
+            {% for category, message in messages %}
+              <article class="flash flash-{{ category }}">{{ message }}</article>
+            {% endfor %}
+          </section>
+        {% endif %}
+      {% endwith %}
+
+      <form class="offer-form" action="{{ url_for('login_post', next=request.args.get('next', '')) }}" method="post">
+        <label>
+          <span>Password</span>
+          <input type="password" name="password" autocomplete="current-password" required autofocus>
+        </label>
+        <button class="primary-button" type="submit">Sign In</button>
+      </form>
+
+      <p class="meta-hint">If the dashboard sits behind Cloudflare, keep this password enabled as a second protection layer.</p>
+    </section>
+  </div>
+</body>
+</html>
